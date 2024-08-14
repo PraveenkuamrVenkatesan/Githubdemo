@@ -1,0 +1,10 @@
+{
+	"name": "synapse-ws-sqlOnDemand--synapse-pk-ws",
+	"properties": {
+		"privateLinkResourceId": "/subscriptions/32d11b99-2085-4f04-91fb-744c8c881ffb/resourceGroups/praveen-rg/providers/Microsoft.Synapse/workspaces/synapse-pk-ws",
+		"groupId": "sqlOnDemand",
+		"fqdns": [
+			"synapse-pk-ws-ondemand.bb8d4a43-3725-4a5d-a495-930efa98b396.sql.azuresynapse.net"
+		]
+	}
+}
