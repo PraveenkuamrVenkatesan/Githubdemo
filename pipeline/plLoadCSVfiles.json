@@ -22,6 +22,10 @@
 							"container": {
 								"value": "@pipeline().parameters.source_container",
 								"type": "Expression"
+							},
+							"folder": {
+								"value": "@pipeline().parameters.source_dir",
+								"type": "Expression"
 							}
 						}
 					},
@@ -113,6 +117,10 @@
 									"parameters": {
 										"container": {
 											"value": "@pipeline().parameters.source_container",
+											"type": "Expression"
+										},
+										"folder": {
+											"value": "@pipeline().parameters.source_dir",
 											"type": "Expression"
 										}
 									}
