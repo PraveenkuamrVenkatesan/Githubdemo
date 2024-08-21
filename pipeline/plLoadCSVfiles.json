@@ -174,7 +174,7 @@
 					"notebookPath": "/Users/tharunp1@systechusa.com/Databricks/Northwind_data_prep/Bronze to Silver"
 				},
 				"linkedServiceName": {
-					"referenceName": "AzureDatabricks",
+					"referenceName": "AzureDatabricksExistCluster",
 					"type": "LinkedServiceReference"
 				}
 			},
@@ -240,7 +240,7 @@
 					},
 					"ifTrueActivities": [
 						{
-							"name": "Web1_copy1",
+							"name": "WebFailure",
 							"type": "WebActivity",
 							"dependsOn": [],
 							"policy": {
