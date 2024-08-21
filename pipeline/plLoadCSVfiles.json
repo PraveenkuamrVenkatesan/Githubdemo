@@ -34,6 +34,7 @@
 					],
 					"storeSettings": {
 						"type": "AzureBlobFSReadSettings",
+						"recursive": true,
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
@@ -170,11 +171,96 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"notebookPath": "/Users/tharunp1@systechusa.com/Databricks/demo"
+					"notebookPath": "/Users/tharunp1@systechusa.com/Databricks/Northwind_data_prep/Bronze to Silver"
 				},
 				"linkedServiceName": {
 					"referenceName": "AzureDatabricks",
 					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "SuccessMail",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Notebook1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@not(empty(pipeline().parameters.email))",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "Web1",
+							"type": "WebActivity",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"method": "POST",
+								"url": "https://prod-00.southindia.logic.azure.com:443/workflows/67ce1efa15a245a1b81e5f34519ee13a/triggers/When_a_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=XTk6sWGpHzuDgHQ8SHnejKuBozA-EUxrdYR1iJgmtu0",
+								"body": {
+									"value": "{\n        \"Pipeline\": @{pipeline().Pipeline},\n        \"Errormassage\": @{concat(activity('Copy data1')?.Error?.Message,activity('Get Metadata1')?.Error?.Message,activity('Notebook1')?.Error?.Message)},\n        \"Mailid\": @{pipeline().parameters.email},\n        \"Massage\": \"Data loaded till silver successfully\",\n        \"Datafactoryname\": @{pipeline().DataFactory},\n        \"Runid\": @{pipeline().RunId}\n}",
+									"type": "Expression"
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "FailureMail",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Notebook1",
+						"dependencyConditions": [
+							"Skipped",
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@not(empty(pipeline().parameters.email))",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "Web1_copy1",
+							"type": "WebActivity",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"method": "POST",
+								"url": "https://prod-00.southindia.logic.azure.com:443/workflows/67ce1efa15a245a1b81e5f34519ee13a/triggers/When_a_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=XTk6sWGpHzuDgHQ8SHnejKuBozA-EUxrdYR1iJgmtu0",
+								"body": {
+									"value": "{\n        \"Pipeline\": @{pipeline().Pipeline},\n        \"Errormassage\": @{concat(activity('Copy data1')?.Error?.Message,activity('Get Metadata1')?.Error?.Message,activity('Notebook1')?.Error?.Message)},\n        \"Mailid\": @{pipeline().parameters.email},\n        \"Massage\": \"Data load got failed\",\n        \"Datafactoryname\": @{pipeline().DataFactory},\n        \"Runid\": @{pipeline().RunId}\n}",
+									"type": "Expression"
+								}
+							}
+						}
+					]
 				}
 			}
 		],
@@ -194,6 +280,10 @@
 			"source_dir": {
 				"type": "string",
 				"defaultValue": "Northwind"
+			},
+			"email": {
+				"type": "string",
+				"defaultValue": "praveenkumarv@systechusa.com"
 			}
 		},
 		"annotations": []
