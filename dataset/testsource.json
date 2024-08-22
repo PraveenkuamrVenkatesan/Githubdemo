@@ -1,0 +1,66 @@
+{
+	"name": "testsource",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "blobsourcefiles",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Customer",
+				"folderPath": "Bronze",
+				"container": "databricks-fs"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "CustomerID",
+				"type": "UTF8"
+			},
+			{
+				"name": "CompanyName",
+				"type": "UTF8"
+			},
+			{
+				"name": "ContactName",
+				"type": "UTF8"
+			},
+			{
+				"name": "ContactTitle",
+				"type": "UTF8"
+			},
+			{
+				"name": "Address",
+				"type": "UTF8"
+			},
+			{
+				"name": "City",
+				"type": "UTF8"
+			},
+			{
+				"name": "Region",
+				"type": "UTF8"
+			},
+			{
+				"name": "PostalCode",
+				"type": "UTF8"
+			},
+			{
+				"name": "Country",
+				"type": "UTF8"
+			},
+			{
+				"name": "Phone",
+				"type": "UTF8"
+			},
+			{
+				"name": "Fax",
+				"type": "UTF8"
+			}
+		]
+	}
+}
