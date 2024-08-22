@@ -197,7 +197,7 @@
 					},
 					"ifTrueActivities": [
 						{
-							"name": "Web1",
+							"name": "WebSuccess",
 							"type": "WebActivity",
 							"dependsOn": [],
 							"policy": {
@@ -215,7 +215,7 @@
 								},
 								"url": "https://prod-00.southindia.logic.azure.com:443/workflows/67ce1efa15a245a1b81e5f34519ee13a/triggers/When_a_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=XTk6sWGpHzuDgHQ8SHnejKuBozA-EUxrdYR1iJgmtu0",
 								"body": {
-									"value": "{\n        \"Pipeline\": @{pipeline().Pipeline},\n        \"Errormassage\": @{concat(activity('Copy data1')?.Error?.Message,activity('Get Metadata1')?.Error?.Message,activity('Notebook1')?.Error?.Message)},\n        \"Mailid\": @{pipeline().parameters.email},\n        \"Massage\": \"Data loaded till silver successfully\",\n        \"Datafactoryname\": @{pipeline().DataFactory},\n        \"Runid\": @{pipeline().RunId}\n}",
+									"value": "{\n    \"Massage\": \"A file upload succeeded in the pipeline with:<br><br>Run ID: @{pipeline().RunId}<br>Pipeline Name: @{pipeline().Pipeline}<br>Run Time: @{pipeline().TriggerTime}\",\n    \"Datafactoryname\": \"@{pipeline().DataFactory}\",\n    \"pipelineName\": \"@{pipeline().Pipeline}\",\n    \"Runid\": \"@{pipeline().RunId}\"\n}",
 									"type": "Expression"
 								}
 							}
@@ -256,12 +256,9 @@
 							"userProperties": [],
 							"typeProperties": {
 								"method": "POST",
-								"headers": {
-									"Content-Type": "application/json"
-								},
 								"url": "https://prod-00.southindia.logic.azure.com:443/workflows/67ce1efa15a245a1b81e5f34519ee13a/triggers/When_a_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=XTk6sWGpHzuDgHQ8SHnejKuBozA-EUxrdYR1iJgmtu0",
 								"body": {
-									"value": "{\n        \"Pipeline\": @{pipeline().Pipeline},\n        \"Errormassage\": @{concat(activity('Copy data1')?.Error?.Message,activity('Get Metadata1')?.Error?.Message,activity('Notebook1')?.Error?.Message)},\n        \"Mailid\": @{pipeline().parameters.email},\n        \"Massage\": \"Data load got failed\",\n        \"Datafactoryname\": @{pipeline().DataFactory},\n        \"Runid\": @{pipeline().RunId}\n}",
+									"value": "{\n    \"Massage\": \"A file upload failed in the pipeline with:<br><br>Run ID: @{pipeline().RunId}<br>Pipeline Name: @{pipeline().Pipeline}<br>Run Time: @{pipeline().TriggerTime}<br>Error:@{concat(activity('Copy data1')?.Error?.Message, \n\t\tactivity('Get Metadata1')?.Error?.Message,activity('Notebook1')?.Error?.Message)} \",\n    \"Datafactoryname\": \"@{pipeline().DataFactory}\",\n    \"pipelineName\": \"@{pipeline().Pipeline}\",\n    \"Runid\": \"@{pipeline().RunId}\"\n}",
 									"type": "Expression"
 								}
 							}
