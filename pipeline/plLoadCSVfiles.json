@@ -152,7 +152,7 @@
 				}
 			},
 			{
-				"name": "Notebook1",
+				"name": "BronzetoSilver",
 				"type": "DatabricksNotebook",
 				"dependsOn": [
 					{
@@ -242,10 +242,10 @@
 				"type": "Wait",
 				"dependsOn": [
 					{
-						"activity": "Notebook1",
+						"activity": "SilvertoGold",
 						"dependencyConditions": [
-							"Skipped",
-							"Failed"
+							"Failed",
+							"Skipped"
 						]
 					}
 				],
@@ -259,7 +259,7 @@
 				"type": "Wait",
 				"dependsOn": [
 					{
-						"activity": "Notebook1",
+						"activity": "SilvertoGold",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -268,6 +268,33 @@
 				"userProperties": [],
 				"typeProperties": {
 					"waitTimeInSeconds": 1
+				}
+			},
+			{
+				"name": "SilvertoGold",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "BronzetoSilver",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Users/tharunp1@systechusa.com/Databricks/Northwind_data_prep/Silver to Gold"
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricksExistCluster",
+					"type": "LinkedServiceReference"
 				}
 			}
 		],
